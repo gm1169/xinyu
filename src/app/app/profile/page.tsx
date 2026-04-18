@@ -139,6 +139,16 @@ export default async function ProfilePage() {
 
       <ul className="space-y-2">
         <LinkRow
+          href="/app/profile/report"
+          label="成长报告"
+          emoji="📊"
+        />
+        <LinkRow
+          href="/app/assistant"
+          label="AI 心理陪伴"
+          emoji="🤖"
+        />
+        <LinkRow
           href="/app/profile/emotion"
           label="记录今日情绪"
           emoji="📝"
