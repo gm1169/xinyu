@@ -1,0 +1,183 @@
+// Prisma schema for 「心语」 MVP
+// DB: SQLite (dev) — swap to PostgreSQL in prod by changing provider + DATABASE_URL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  phone        String   @unique
+  passwordHash String
+  nickname     String
+  avatarUrl    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  userAphorisms     UserAphorism[]
+  trainingProgress  UserTrainingProgress[]
+  emotionRecords    EmotionRecord[]
+  sleepRecords      SleepRecord[]
+  values            ValueExploration[]
+  actionPlans       ActionPlan[]
+  badges            UserBadge[]
+}
+
+model Aphorism {
+  id                   String   @id @default(cuid())
+  content              String
+  source               String
+  // JSON strings (SQLite has no native JSON)
+  annotations          String   // [{char, meaning}]
+  interpretation       String
+  psychologyAnalysis   String
+  applicationScenarios String   // string[]
+  tags                 String   // string[]
+  category             String   // "classical" | "poetry" | "modern"
+  createdAt            DateTime @default(now())
+
+  userAphorisms UserAphorism[]
+}
+
+model UserAphorism {
+  id         String    @id @default(cuid())
+  userId     String
+  aphorismId String
+  isFavorite Boolean   @default(false)
+  readAt     DateTime?
+  reflection String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  aphorism Aphorism @relation(fields: [aphorismId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, aphorismId])
+}
+
+model TrainingUnit {
+  id              String   @id @default(cuid())
+  module          String   // "intro" | "advanced" | "practice"
+  order           Int
+  title           String
+  description     String
+  theoryContent   String   // JSON: {text, keyPoints[]}
+  animationUrl    String?
+  exercises       String   // JSON: Exercise[]
+  caseStudy       String   // JSON: {title, content, reflectionQuestions[]}
+  durationMinutes Int
+
+  progress UserTrainingProgress[]
+
+  @@unique([module, order])
+}
+
+model UserTrainingProgress {
+  id          String    @id @default(cuid())
+  userId      String
+  unitId      String
+  status      String    @default("not_started") // not_started | in_progress | completed
+  startedAt   DateTime?
+  completedAt DateTime?
+  score       Int?
+  notes       String?
+  answers     String?   // JSON
+
+  user User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  unit TrainingUnit @relation(fields: [unitId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, unitId])
+}
+
+model EmotionRecord {
+  id              String   @id @default(cuid())
+  userId          String
+  recordDate      DateTime
+  emotionScore    Int      // 1-10 (higher = better)
+  anxietyScore    Int      // 1-10 (higher = more anxious)
+  depressionScore Int      // 1-10 (higher = more depressed)
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recordDate])
+}
+
+model SleepRecord {
+  id           String   @id @default(cuid())
+  userId       String
+  recordDate   DateTime
+  bedtime      String   // "HH:mm"
+  wakeTime     String   // "HH:mm"
+  sleepQuality Int      // 1-10
+  wakeUps      Int      @default(0)
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recordDate])
+}
+
+model ValueExploration {
+  id             String   @id @default(cuid())
+  userId         String
+  domain         String   // 职业发展 / 家庭关系 / 身心健康 / ...
+  valueStatement String
+  importance     Int      // 1-10
+  confidence     Int      // 1-10
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  actionPlans ActionPlan[]
+}
+
+model ActionPlan {
+  id                String    @id @default(cuid())
+  userId            String
+  valueId           String?
+  targetBehavior    String
+  triggerContext    String
+  steps             String    // JSON: string[]
+  obstacles         String    // JSON: string[]
+  copingStrategies  String    // JSON: string[]
+  startDate         DateTime
+  endDate           DateTime?
+  status            String    @default("active") // active | completed | abandoned
+  reflection        String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  user  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  value ValueExploration? @relation(fields: [valueId], references: [id], onDelete: SetNull)
+}
+
+model Badge {
+  id          String @id @default(cuid())
+  code        String @unique
+  name        String
+  description String
+  iconEmoji   String // 使用 emoji 作为 MVP 图标，省资源
+  criteria    String // JSON
+
+  userBadges UserBadge[]
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  userId   String
+  badgeId  String
+  earnedAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+}
