@@ -5,6 +5,7 @@ import { dayBucket } from "@/lib/date";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { Onboarding } from "@/components/shell/Onboarding";
 
 async function getDashboardData(userId: string) {
   const total = await prisma.aphorism.count();
@@ -38,9 +39,11 @@ export default async function AppHome() {
   const session = (await getSession())!;
   const { aphorism, completedUnits, totalUnits, todayEmotion } =
     await getDashboardData(session.sub);
+  const isNewUser = completedUnits === 0 && !todayEmotion;
 
   return (
     <div className="p-5 pb-4 animate-fade-in">
+      <Onboarding shouldShow={isNewUser} />
       <header className="pt-3 pb-6">
         <div className="text-sm text-ink-light">
           {greeting()}，{session.nickname}
@@ -70,6 +73,19 @@ export default async function AppHome() {
           </Card>
         </Link>
       )}
+
+      <Link href="/app/practice/breathing" className="block mt-4">
+        <Card className="bg-gradient-to-br from-pine/10 to-bamboo/10 border-pine/20 flex items-center gap-4">
+          <div className="text-3xl">🌬️</div>
+          <div className="flex-1">
+            <div className="font-song text-base text-ink">此刻就练 · 呼吸</div>
+            <div className="text-xs text-ink-light mt-0.5">
+              焦虑、入睡前、卡住时——3 分钟回到身体
+            </div>
+          </div>
+          <ArrowRight size={16} className="text-bamboo shrink-0" />
+        </Card>
+      </Link>
 
       <div className="grid grid-cols-2 gap-3 mt-4">
         <Link href="/app/training">

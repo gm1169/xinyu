@@ -39,6 +39,12 @@ export default async function AphorismPage() {
         </div>
         <div className="flex items-center gap-3">
           <Link
+            href="/app/aphorism/random"
+            className="text-ink-light hover:text-bamboo text-sm"
+          >
+            抽一句
+          </Link>
+          <Link
             href="/app/aphorism/library"
             className="text-ink-light hover:text-bamboo text-sm"
           >

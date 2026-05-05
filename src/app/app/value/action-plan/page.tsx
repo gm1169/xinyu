@@ -48,7 +48,8 @@ export default async function ActionPlansPage() {
         <ul className="space-y-3">
           {plans.map((p) => (
             <li key={p.id}>
-              <Card>
+              <Link href={`/app/value/action-plan/${p.id}`}>
+              <Card className="hover:border-bamboo/30 transition-colors">
                 <div className="flex items-center gap-2 mb-2">
                   <Tag tone={p.status === "active" ? "bamboo" : "pine"}>
                     {p.status === "active"
@@ -77,6 +78,7 @@ export default async function ActionPlansPage() {
                   <span>{JSON.parse(p.steps).length} 个步骤</span>
                 </div>
               </Card>
+              </Link>
             </li>
           ))}
         </ul>

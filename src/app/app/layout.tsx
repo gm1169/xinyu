@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { BottomNav } from "@/components/shell/BottomNav";
+import { CrisisHelp } from "@/components/shell/CrisisHelp";
 
 export default async function AppLayout({
   children,
@@ -13,6 +14,7 @@ export default async function AppLayout({
   return (
     <div className="min-h-screen pb-20">
       <div className="mx-auto max-w-screen-sm">{children}</div>
+      <CrisisHelp />
       <BottomNav />
     </div>
   );
