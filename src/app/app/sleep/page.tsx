@@ -39,6 +39,18 @@ export default async function SleepPage() {
         </p>
       </header>
 
+      <Link href="/app/practice" className="block mb-4">
+        <Card className="bg-gradient-to-br from-pine/10 to-bamboo/10 border-pine/20 flex items-center gap-3">
+          <div className="text-2xl">🌙</div>
+          <div className="flex-1">
+            <div className="font-song text-base text-ink">睡前练习</div>
+            <div className="text-xs text-ink-light mt-0.5">
+              4-7-8 呼吸 · 渐进式肌肉放松——身体先放下，大脑才放下
+            </div>
+          </div>
+        </Card>
+      </Link>
+
       <Card className="mb-5 bg-gradient-to-br from-jiang-zi/5 to-xuan border-jiang-zi/15">
         <div className="flex items-center justify-between mb-3">
           <div>

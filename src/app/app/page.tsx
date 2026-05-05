@@ -74,13 +74,13 @@ export default async function AppHome() {
         </Link>
       )}
 
-      <Link href="/app/practice/breathing" className="block mt-4">
+      <Link href="/app/practice" className="block mt-4">
         <Card className="bg-gradient-to-br from-pine/10 to-bamboo/10 border-pine/20 flex items-center gap-4">
           <div className="text-3xl">🌬️</div>
           <div className="flex-1">
-            <div className="font-song text-base text-ink">此刻就练 · 呼吸</div>
+            <div className="font-song text-base text-ink">此刻就练</div>
             <div className="text-xs text-ink-light mt-0.5">
-              焦虑、入睡前、卡住时——3 分钟回到身体
+              呼吸 · 接地 · 放松——焦虑或失眠时一键调用
             </div>
           </div>
           <ArrowRight size={16} className="text-bamboo shrink-0" />

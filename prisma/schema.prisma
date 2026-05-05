@@ -30,6 +30,21 @@ model User {
   values            ValueExploration[]
   actionPlans       ActionPlan[]
   badges            UserBadge[]
+  journalEntries    JournalEntry[]
+}
+
+model JournalEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  entryDate   DateTime // 日维度
+  content     String
+  mood        Int?     // 可选 1-10
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, entryDate])
 }
 
 model Aphorism {

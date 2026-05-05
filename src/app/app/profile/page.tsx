@@ -177,9 +177,19 @@ export default async function ProfilePage() {
           emoji="📊"
         />
         <LinkRow
+          href="/app/profile/journal"
+          label="心语日记"
+          emoji="📓"
+        />
+        <LinkRow
           href="/app/assistant"
           label="AI 心理陪伴"
           emoji="🤖"
+        />
+        <LinkRow
+          href="/app/practice"
+          label="此刻就练"
+          emoji="🌬️"
         />
         <LinkRow
           href="/app/profile/emotion"
