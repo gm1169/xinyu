@@ -26,10 +26,20 @@ export async function GET() {
   });
   const progressMap = new Map(progress.map((p) => [p.unitId, p.status]));
 
+  const moduleOrder = ["intro", "advanced", "practice"];
   const grouped = new Map<
     string,
     { id: string; name: string; description: string; units: unknown[] }
   >();
+  // 预置教学顺序，未填充的模块最后会被忽略
+  for (const m of moduleOrder) {
+    grouped.set(m, {
+      id: m,
+      name: moduleLabels[m] ?? m,
+      description: moduleDescriptions[m] ?? "",
+      units: [],
+    });
+  }
   for (const u of units) {
     if (!grouped.has(u.module)) {
       grouped.set(u.module, {
@@ -49,5 +59,7 @@ export async function GET() {
     });
   }
 
-  return ok(Array.from(grouped.values()));
+  return ok(
+    Array.from(grouped.values()).filter((m) => (m.units as unknown[]).length > 0),
+  );
 }

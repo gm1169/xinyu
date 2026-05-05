@@ -37,13 +37,21 @@ export default async function AphorismPage() {
           <div className="text-xs text-ink-light">今日格言</div>
           <div className="font-song text-xl text-ink">心语每日</div>
         </div>
-        <Link
-          href="/app/aphorism/favorites"
-          className="text-ink-light hover:text-cinnabar flex items-center gap-1.5 text-sm"
-        >
-          <Heart size={16} />
-          收藏
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/app/aphorism/library"
+            className="text-ink-light hover:text-bamboo text-sm"
+          >
+            书架
+          </Link>
+          <Link
+            href="/app/aphorism/favorites"
+            className="text-ink-light hover:text-cinnabar flex items-center gap-1.5 text-sm"
+          >
+            <Heart size={16} />
+            收藏
+          </Link>
+        </div>
       </div>
 
       <AphorismView

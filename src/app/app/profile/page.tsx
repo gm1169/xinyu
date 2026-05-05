@@ -8,6 +8,7 @@ import { EmotionChart } from "@/components/profile/EmotionChart";
 import { ChevronRight, Heart, Flame, ScrollText, Settings } from "lucide-react";
 import { subDays } from "date-fns";
 import { LogoutButton } from "@/components/profile/LogoutButton";
+import { computeStreak } from "@/lib/streak";
 
 const trendLabels: Record<string, string> = {
   improving: "正在改善 ↗",
@@ -19,24 +20,32 @@ export default async function ProfilePage() {
   const session = (await getSession())!;
   const userId = session.sub;
 
-  const [user, emotionRecords, userBadges, readCount, completedUnits, favorites] =
-    await Promise.all([
-      prisma.user.findUnique({ where: { id: userId } }),
-      prisma.emotionRecord.findMany({
-        where: { userId, recordDate: { gte: subDays(new Date(), 30) } },
-        orderBy: { recordDate: "asc" },
-      }),
-      prisma.userBadge.findMany({
-        where: { userId },
-        include: { badge: true },
-        orderBy: { earnedAt: "desc" },
-      }),
-      prisma.userAphorism.count({ where: { userId, readAt: { not: null } } }),
-      prisma.userTrainingProgress.count({
-        where: { userId, status: "completed" },
-      }),
-      prisma.userAphorism.count({ where: { userId, isFavorite: true } }),
-    ]);
+  const [
+    user,
+    emotionRecords,
+    userBadges,
+    readCount,
+    completedUnits,
+    favorites,
+    streak,
+  ] = await Promise.all([
+    prisma.user.findUnique({ where: { id: userId } }),
+    prisma.emotionRecord.findMany({
+      where: { userId, recordDate: { gte: subDays(new Date(), 30) } },
+      orderBy: { recordDate: "asc" },
+    }),
+    prisma.userBadge.findMany({
+      where: { userId },
+      include: { badge: true },
+      orderBy: { earnedAt: "desc" },
+    }),
+    prisma.userAphorism.count({ where: { userId, readAt: { not: null } } }),
+    prisma.userTrainingProgress.count({
+      where: { userId, status: "completed" },
+    }),
+    prisma.userAphorism.count({ where: { userId, isFavorite: true } }),
+    computeStreak(userId),
+  ]);
 
   const allBadges = await prisma.badge.findMany({ orderBy: { id: "asc" } });
   const earnedCodes = new Set(userBadges.map((b) => b.badge.code));
@@ -63,13 +72,37 @@ export default async function ProfilePage() {
           <div className="font-song text-xl text-ink">{user?.nickname}</div>
           <div className="text-xs text-ink-light">{user?.phone}</div>
         </div>
+        <Link
+          href="/app/profile/settings"
+          className="text-ink-light hover:text-ink p-2"
+          aria-label="设置"
+        >
+          <Settings size={18} />
+        </Link>
         <LogoutButton />
       </header>
 
-      <div className="grid grid-cols-3 gap-2 mb-5">
+      {streak.current > 0 && (
+        <Card className="mb-4 bg-gradient-to-br from-amber/10 to-xuan border-amber/20">
+          <div className="flex items-center gap-3">
+            <div className="text-3xl">🔥</div>
+            <div className="flex-1">
+              <div className="font-song text-lg text-ink">
+                连续 {streak.current} 天与心相伴
+              </div>
+              <div className="text-xs text-ink-light mt-0.5">
+                历史最长 {streak.longest} 天 · 持续就是力量
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      <div className="grid grid-cols-4 gap-2 mb-5">
         <Stat label="阅读格言" value={readCount} Icon={ScrollText} />
         <Stat label="训练单元" value={completedUnits} Icon={Flame} />
         <Stat label="收藏" value={favorites} Icon={Heart} />
+        <Stat label="连续天数" value={streak.current} Icon={Flame} />
       </div>
 
       <Card className="mb-4">

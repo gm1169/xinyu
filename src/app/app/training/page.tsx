@@ -21,10 +21,17 @@ export default async function TrainingPage() {
   });
   const pMap = new Map(progress.map((p) => [p.unitId, p.status]));
 
+  // 强制按教学顺序：入门 → 进阶 → 实战
+  const moduleOrder = ["intro", "advanced", "practice"];
   const byModule = new Map<string, typeof units>();
+  for (const m of moduleOrder) byModule.set(m, []);
   for (const u of units) {
     if (!byModule.has(u.module)) byModule.set(u.module, []);
     byModule.get(u.module)!.push(u);
+  }
+  // 移除空模块
+  for (const [m, arr] of [...byModule]) {
+    if (arr.length === 0) byModule.delete(m);
   }
 
   return (

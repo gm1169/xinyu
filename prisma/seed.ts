@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { aphorisms } from "./seed-data/aphorisms";
+import { aphorismsExt } from "./seed-data/aphorisms-ext";
 import { trainingUnits } from "./seed-data/training-units";
+import { trainingUnitsAdvanced } from "./seed-data/training-units-advanced";
 import { badges } from "./seed-data/badges";
 
 const prisma = new PrismaClient();
@@ -8,8 +10,11 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 开始播种数据...");
 
+  const allAphorisms = [...aphorisms, ...aphorismsExt];
+  const allUnits = [...trainingUnits, ...trainingUnitsAdvanced];
+
   // Aphorisms
-  for (const a of aphorisms) {
+  for (const a of allAphorisms) {
     await prisma.aphorism.upsert({
       where: { id: a.id },
       update: {},
@@ -26,10 +31,10 @@ async function main() {
       },
     });
   }
-  console.log(`✓ 写入格言 ${aphorisms.length} 条`);
+  console.log(`✓ 写入格言 ${allAphorisms.length} 条`);
 
   // Training units
-  for (const u of trainingUnits) {
+  for (const u of allUnits) {
     await prisma.trainingUnit.upsert({
       where: { module_order: { module: u.module, order: u.order } },
       update: {
@@ -52,7 +57,7 @@ async function main() {
       },
     });
   }
-  console.log(`✓ 写入训练单元 ${trainingUnits.length} 个`);
+  console.log(`✓ 写入训练单元 ${allUnits.length} 个`);
 
   // Badges
   for (const b of badges) {

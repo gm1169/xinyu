@@ -1,4 +1,5 @@
 import { prisma } from "./prisma";
+import { computeStreak } from "./streak";
 
 // 轻量级徽章检查：在关键事件后调用，授予当前应得的徽章
 export async function checkAndAwardBadges(userId: string) {
@@ -10,6 +11,7 @@ export async function checkAndAwardBadges(userId: string) {
     valueDomains,
     actionStarted,
     sleepRecords,
+    streak,
   ] = await Promise.all([
     prisma.userAphorism.count({ where: { userId, readAt: { not: null } } }),
     prisma.userAphorism.count({
@@ -29,6 +31,7 @@ export async function checkAndAwardBadges(userId: string) {
     }),
     prisma.actionPlan.count({ where: { userId } }),
     prisma.sleepRecord.count({ where: { userId } }),
+    computeStreak(userId),
   ]);
 
   const introCompletedCount = introUnits.filter(
@@ -44,6 +47,8 @@ export async function checkAndAwardBadges(userId: string) {
   if (valueDomains.length >= 3) targets.push("value_seeker");
   if (actionStarted >= 1) targets.push("action_taker");
   if (sleepRecords >= 7) targets.push("sleep_keeper");
+  if (streak.longest >= 7) targets.push("streak_7");
+  if (streak.longest >= 30) targets.push("streak_30");
 
   if (targets.length === 0) return [] as string[];
 
