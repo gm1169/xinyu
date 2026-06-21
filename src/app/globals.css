@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background-color: theme(colors.moonlit);
+  color: theme(colors.ink);
+}
+
+body {
+  font-family: theme(fontFamily.sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 格言正文·楷体大字号 */
+.aphorism-text {
+  font-family: theme(fontFamily.kai);
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+}
+
+/* 墨染分隔线 */
+.ink-divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(44, 44, 44, 0.18),
+    transparent
+  );
+}
+
+/* 渐入动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fadeIn 300ms ease-out both; }
+
+/* 竹影纹·首页装饰 */
+.bamboo-shadow {
+  background-image: radial-gradient(
+      circle at 10% 20%,
+      rgba(107, 142, 107, 0.08) 0,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(107, 142, 107, 0.08) 0,
+      transparent 40%
+    );
+}
