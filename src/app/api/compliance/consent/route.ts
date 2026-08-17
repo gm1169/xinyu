@@ -4,7 +4,7 @@ import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { fail, ok, safeJson, unauthorized } from "@/lib/api";
 
-export const CONSENT_VERSION = "grant-mvp-2026-08";
+const CONSENT_VERSION = "grant-mvp-2026-08";
 
 const Body = z.object({
   acceptedPrivacy: z.boolean(),
