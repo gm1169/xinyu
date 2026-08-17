@@ -3,12 +3,8 @@ import { z } from "zod";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { fail, ok, safeJson, unauthorized } from "@/lib/api";
-import {
-  buildUserContext,
-  systemPrompt,
-  detectCrisis,
-  CRISIS_RESPONSE,
-} from "@/lib/ai";
+import { buildUserContext, systemPrompt } from "@/lib/ai";
+import { crisisResponse, triageCrisis } from "@/lib/crisis";
 
 const Message = z.object({
   role: z.enum(["user", "assistant"]),
@@ -28,8 +24,24 @@ export async function POST(req: NextRequest) {
   const last = parsed.data.messages[parsed.data.messages.length - 1];
   if (last.role !== "user") return fail("最后一条消息必须来自用户");
 
-  if (detectCrisis(last.content)) {
-    return ok({ content: CRISIS_RESPONSE, crisis: true });
+  const triage = triageCrisis(last.content);
+  if (triage.detected) {
+    await prisma.crisisEvent.create({
+      data: {
+        userId: session.sub,
+        triggerSource: "assistant",
+        triggerText: last.content,
+        matchedTerms: JSON.stringify(triage.matchedTerms),
+        riskLevel: triage.level,
+        recommendedAction: triage.recommendedAction,
+      },
+    });
+    return ok({
+      content: crisisResponse(triage.level),
+      crisis: true,
+      riskLevel: triage.level,
+      logged: true,
+    });
   }
 
   const user = await prisma.user.findUnique({ where: { id: session.sub } });
