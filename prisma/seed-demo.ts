@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { hashPassword } from "../src/lib/auth";
+import bcrypt from "bcryptjs";
 import { subDays, startOfDay } from "date-fns";
 
 const prisma = new PrismaClient();
@@ -12,7 +12,7 @@ async function main() {
     create: {
       phone,
       nickname: "申报演示用户",
-      passwordHash: await hashPassword("Demo123456"),
+      passwordHash: await bcrypt.hash("Demo123456", 10),
     },
   });
 
