@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { LifeBuoy, X } from "lucide-react";
+import { DEFAULT_CRISIS_RESOURCE } from "@/lib/crisis";
 
 export function CrisisHelp() {
   const [open, setOpen] = useState(false);
+  const resource = DEFAULT_CRISIS_RESOURCE;
 
   return (
     <>
@@ -38,42 +40,51 @@ export function CrisisHelp() {
             </div>
 
             <p className="text-sm text-ink leading-relaxed mb-4">
-              此刻如果你感到难以承受，请优先联系下面的资源——它们 24
-              小时随时可用，且免费。
+              如果你或身边的人存在伤害自己、伤害他人或无法保证安全的风险，请优先联系人工专业资源。
             </p>
 
             <div className="space-y-3">
-              <a
-                href="tel:400-161-9995"
-                className="block bg-cinnabar/10 border border-cinnabar/20 rounded-sm p-3 hover:bg-cinnabar/15"
-              >
-                <div className="text-xs text-ink-light">全国心理援助热线</div>
-                <div className="font-song text-xl text-cinnabar mt-0.5">
-                  400-161-9995
-                </div>
-                <div className="text-xs text-ink-light mt-1">24 小时</div>
-              </a>
-              <a
-                href="tel:120"
-                className="block bg-cinnabar/5 border border-cinnabar/15 rounded-sm p-3 hover:bg-cinnabar/10"
-              >
-                <div className="text-xs text-ink-light">生命危险</div>
-                <div className="font-song text-xl text-cinnabar mt-0.5">
-                  120
-                </div>
-                <div className="text-xs text-ink-light mt-1">
-                  或前往最近医院急诊
-                </div>
-              </a>
+              <HotlineCard
+                label={resource.label}
+                phone={resource.phone}
+                note="武汉示范部署首选心理援助热线"
+              />
+              <HotlineCard
+                label={resource.secondaryLabel}
+                phone={resource.secondaryPhone}
+                note="心理咨询、危机干预和科普宣教"
+              />
+              <HotlineCard
+                label={resource.olderAdultLabel}
+                phone={resource.olderAdultPhone}
+                note="老年专项心理支持"
+              />
+              <HotlineCard
+                label="生命危险或急症"
+                phone={resource.emergencyPhone}
+                note="或前往最近医院急诊"
+              />
             </div>
 
             <div className="mt-4 text-xs text-ink-light leading-relaxed">
-              「心语」是一个 AI 陪伴工具，无法替代专业治疗师。
-              请记住——你不孤单，也不必一个人扛。
+              「心语」是 AI 辅助陪伴和筛查工具，不能替代专业治疗师、精神科医生或急救服务。正式部署前需由项目单位复核热线和转介流程。
             </div>
           </div>
         </div>
       )}
     </>
+  );
+}
+
+function HotlineCard({ label, phone, note }: { label: string; phone: string; note: string }) {
+  return (
+    <a
+      href={`tel:${phone}`}
+      className="block bg-cinnabar/10 border border-cinnabar/20 rounded-sm p-3 hover:bg-cinnabar/15"
+    >
+      <div className="text-xs text-ink-light">{label}</div>
+      <div className="font-song text-xl text-cinnabar mt-0.5">{phone}</div>
+      <div className="text-xs text-ink-light mt-1">{note}</div>
+    </a>
   );
 }
