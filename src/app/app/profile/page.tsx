@@ -99,7 +99,7 @@ export default async function ProfilePage() {
       )}
 
       <div className="grid grid-cols-4 gap-2 mb-5">
-        <Stat label="阅读格言" value={readCount} Icon={ScrollText} />
+        <Stat label="微干预" value={readCount} Icon={ScrollText} />
         <Stat label="训练单元" value={completedUnits} Icon={Flame} />
         <Stat label="收藏" value={favorites} Icon={Heart} />
         <Stat label="连续天数" value={streak.current} Icon={Flame} />
@@ -171,45 +171,20 @@ export default async function ProfilePage() {
       </Card>
 
       <ul className="space-y-2">
-        <LinkRow
-          href="/app/profile/report"
-          label="成长报告"
-          emoji="📊"
-        />
-        <LinkRow
-          href="/app/profile/journal"
-          label="心语日记"
-          emoji="📓"
-        />
-        <LinkRow
-          href="/app/assistant"
-          label="AI 心理陪伴"
-          emoji="🤖"
-        />
-        <LinkRow
-          href="/app/practice"
-          label="此刻就练"
-          emoji="🌬️"
-        />
-        <LinkRow
-          href="/app/profile/emotion"
-          label="记录今日情绪"
-          emoji="📝"
-        />
-        <LinkRow
-          href="/app/aphorism/favorites"
-          label="我收藏的格言"
-          emoji="📖"
-        />
-        <LinkRow
-          href="/app/value"
-          label="我的价值与行动"
-          emoji="🧭"
-        />
+        <LinkRow href="/app/screening" label="标准量表筛查" emoji="📋" />
+        <LinkRow href="/app/compliance" label="知情同意与隐私" emoji="🛡️" />
+        <LinkRow href="/app/crisis-events" label="危机提示记录" emoji="⚠️" />
+        <LinkRow href="/app/profile/report" label="成长报告" emoji="📊" />
+        <LinkRow href="/app/profile/journal" label="心语日记" emoji="📓" />
+        <LinkRow href="/app/assistant" label="AI支持性对话" emoji="🤖" />
+        <LinkRow href="/app/practice" label="此刻就练" emoji="🌬️" />
+        <LinkRow href="/app/profile/emotion" label="记录今日情绪" emoji="📝" />
+        <LinkRow href="/app/aphorism/favorites" label="收藏的微干预" emoji="📖" />
+        <LinkRow href="/app/value" label="我的价值与行动" emoji="🧭" />
       </ul>
 
       <div className="text-center text-xs text-ink-light/70 mt-8 pb-4">
-        心语 · v0.1 · MVP
+        心语 · v0.1 · 申报演示MVP
       </div>
     </div>
   );

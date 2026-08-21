@@ -31,6 +31,55 @@ model User {
   actionPlans       ActionPlan[]
   badges            UserBadge[]
   journalEntries    JournalEntry[]
+  consentRecords    ConsentRecord[]
+  screeningResults  ScreeningResult[]
+  crisisEvents      CrisisEvent[]
+}
+
+model ConsentRecord {
+  id                 String   @id @default(cuid())
+  userId             String
+  consentVersion     String
+  acceptedPrivacy    Boolean
+  acceptedDisclaimer Boolean
+  acceptedScreening  Boolean
+  acceptedAt         DateTime @default(now())
+  userAgent          String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, acceptedAt])
+}
+
+model ScreeningResult {
+  id          String   @id @default(cuid())
+  userId      String
+  scale       String   // PHQ9 | GAD7 | ISI
+  rawAnswers  String   // JSON: number[]
+  totalScore  Int
+  severity    String
+  riskFlag    Boolean  @default(false)
+  completedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, scale, completedAt])
+}
+
+model CrisisEvent {
+  id                String   @id @default(cuid())
+  userId            String
+  triggerSource     String   // assistant | screening | manual
+  triggerText       String?
+  matchedTerms      String   // JSON: string[]
+  riskLevel         String   // watch | urgent | emergency
+  recommendedAction String
+  referralStatus    String   @default("pending") // pending | acknowledged | referred | resolved
+  createdAt         DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }
 
 model JournalEntry {

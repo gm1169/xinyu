@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { aphorisms } from "./seed-data/aphorisms";
 import { aphorismsExt } from "./seed-data/aphorisms-ext";
+import { aphorismsStage1 } from "./seed-data/aphorisms-stage1";
 import { trainingUnits } from "./seed-data/training-units";
 import { trainingUnitsAdvanced } from "./seed-data/training-units-advanced";
 import { badges } from "./seed-data/badges";
@@ -10,14 +11,23 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 开始播种数据...");
 
-  const allAphorisms = [...aphorisms, ...aphorismsExt];
+  const allAphorisms = [...aphorisms, ...aphorismsExt, ...aphorismsStage1];
   const allUnits = [...trainingUnits, ...trainingUnitsAdvanced];
 
   // Aphorisms
   for (const a of allAphorisms) {
     await prisma.aphorism.upsert({
       where: { id: a.id },
-      update: {},
+      update: {
+        content: a.content,
+        source: a.source,
+        annotations: JSON.stringify(a.annotations),
+        interpretation: a.interpretation,
+        psychologyAnalysis: a.psychologyAnalysis,
+        applicationScenarios: JSON.stringify(a.applicationScenarios),
+        tags: JSON.stringify(a.tags),
+        category: a.category,
+      },
       create: {
         id: a.id,
         content: a.content,

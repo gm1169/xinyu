@@ -30,6 +30,9 @@ export function AphorismView({
   const [favorite, setFavorite] = useState(initialFavorite);
   const [reflection, setReflection] = useState(initialReflection);
   const [saved, setSaved] = useState<"idle" | "saving" | "saved">("idle");
+  const annotationTitle = aphorism.annotations.some((a) => a.char.length > 4)
+    ? "心理标注"
+    : "逐字注释";
 
   async function toggleFavorite() {
     setFavorite((v) => !v);
@@ -55,7 +58,7 @@ export function AphorismView({
 
   return (
     <div className="space-y-4">
-      {/* 主体格言 */}
+      {/* 主体格言式微干预内容 */}
       <Card className="text-center py-8 border-bamboo/10 bg-gradient-to-b from-xuan to-moonlit">
         <p className="aphorism-text text-3xl text-ink leading-loose">
           {aphorism.content}
@@ -83,7 +86,9 @@ export function AphorismView({
 
       {aphorism.annotations.length > 0 && (
         <Card>
-          <div className="font-song text-base text-ink mb-3">逐字注释</div>
+          <div className="font-song text-base text-ink mb-3">
+            {annotationTitle === "心理标注" ? "心理技术靶点" : annotationTitle}
+          </div>
           <ul className="space-y-2 text-sm">
             {aphorism.annotations.map((a) => (
               <li key={a.char} className="flex gap-3">
@@ -106,7 +111,7 @@ export function AphorismView({
 
       <Card>
         <div className="font-song text-base text-ink mb-2">
-          心理学视角 · 现代解码
+          心理学视角 · 技术转译
         </div>
         <p className="text-[15px] text-ink leading-relaxed">
           {aphorism.psychologyAnalysis}
@@ -115,7 +120,7 @@ export function AphorismView({
 
       <Card>
         <div className="font-song text-base text-ink mb-3">
-          应用场景 · 何时想起它
+          适用情绪 · 风险边界 · 推荐练习
         </div>
         <ul className="space-y-2 text-[15px] text-ink">
           {aphorism.applicationScenarios.map((s, i) => (
@@ -129,12 +134,12 @@ export function AphorismView({
 
       <Card>
         <div className="font-song text-base text-ink mb-3">
-          我的感悟
+          我的练习记录
         </div>
         <Textarea
           value={reflection}
           onChange={(e) => setReflection(e.target.value)}
-          placeholder="在此刻，这句话让你想到什么？"
+          placeholder="这句话对应了什么念头？你愿意做一个怎样的小练习？"
         />
         <div className="mt-3 flex items-center justify-end gap-2">
           {saved === "saved" && (

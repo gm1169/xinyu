@@ -56,7 +56,7 @@ export default function ProgressReportPage() {
         <div>
           <h1 className="font-song text-2xl text-ink">成长报告</h1>
           <p className="text-sm text-ink-light mt-1">
-            看见的自己，才是真实的自己。
+            汇总筛查、情绪、睡眠与格言式微干预记录，辅助随访沟通。
           </p>
         </div>
       </div>
@@ -142,7 +142,7 @@ export default function ProgressReportPage() {
               <span className="text-bamboo font-medium">
                 {report.training.completedThisPeriod}
               </span>{" "}
-              · 阅读格言{" "}
+              · 格言式微干预{" "}
               <span className="text-bamboo font-medium">
                 {report.aphorism.readCount}
               </span>

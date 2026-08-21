@@ -12,7 +12,7 @@ const STARTERS = [
   "引导我做一次认知解离练习",
   "我最近睡不好，怎么办？",
   "我感觉很焦虑",
-  "什么是「认知解离」？",
+  "给我一个格言式微干预练习",
 ];
 
 export default function AssistantPage() {
@@ -20,7 +20,7 @@ export default function AssistantPage() {
     {
       role: "assistant",
       content:
-        "你好，我是「心语」的 AI 心理陪伴。\n\n我不是治疗师，但可以和你一起练习、一起思考，一起把一个念头放到恰当的位置上。\n\n要不要告诉我，此刻你心里最明显的是什么？",
+        "你好，我是「心语」的人工智能（AI）支持性对话助手。\n\n我不能替代精神科医生、心理治疗师或急救服务，但可以陪你做一次简短记录、认知重评或格言式微干预练习。\n\n要不要告诉我，此刻最明显的感受是什么？",
     },
   ]);
   const [input, setInput] = useState("");
@@ -78,15 +78,15 @@ export default function AssistantPage() {
         <div className="flex-1">
           <div className="font-song text-base text-ink flex items-center gap-1.5">
             <Sparkles size={14} className="text-bamboo" />
-            心语助手
+            AI支持性对话
           </div>
           <div className="text-[11px] text-ink-light">
-            AI 陪伴 · 不能替代专业治疗
+            非诊断 · 非替代治疗 · 高风险时建议人工转介
           </div>
         </div>
       </header>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 pb-6 space-y-3">
         {messages.map((m, i) => (
           <MessageBubble key={i} msg={m} />
         ))}
@@ -121,7 +121,7 @@ export default function AssistantPage() {
           e.preventDefault();
           send();
         }}
-        className="sticky bottom-0 bg-moonlit/95 backdrop-blur border-t border-ink/[0.06] p-3 flex gap-2"
+        className="sticky bottom-20 z-20 bg-moonlit/95 backdrop-blur border-t border-ink/[0.06] p-3 flex gap-2"
       >
         <input
           value={input}

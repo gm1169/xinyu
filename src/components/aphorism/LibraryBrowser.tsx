@@ -29,6 +29,12 @@ export function LibraryBrowser() {
   const [tag, setTag] = useState<string>("");
   const [q, setQ] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showAllTags, setShowAllTags] = useState(false);
+
+  const visibleTags = useMemo(
+    () => (showAllTags ? allTags : allTags.slice(0, 28)),
+    [allTags, showAllTags],
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -57,7 +63,7 @@ export function LibraryBrowser() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="搜索格言、出处、感受……"
+          placeholder="搜索文化文本、出处、心理靶点……"
           className="h-10 w-full rounded-sm border border-ink/15 bg-white pl-9 pr-3 text-[15px] text-ink focus:outline-none focus:border-bamboo focus:ring-2 focus:ring-bamboo/20"
         />
       </div>
@@ -86,7 +92,7 @@ export function LibraryBrowser() {
           >
             不筛选
           </button>
-          {allTags.map((t) => (
+          {visibleTags.map((t) => (
             <button
               key={t}
               onClick={() => setTag(t === tag ? "" : t)}
@@ -97,6 +103,14 @@ export function LibraryBrowser() {
               {t}
             </button>
           ))}
+          {allTags.length > 28 && (
+            <button
+              onClick={() => setShowAllTags((v) => !v)}
+              className="text-xs px-2 py-0.5 rounded-sm border border-bamboo/20 text-bamboo bg-bamboo/5"
+            >
+              {showAllTags ? "收起标签" : `展开 ${allTags.length - 28} 个`}
+            </button>
+          )}
         </div>
       )}
 
@@ -104,7 +118,7 @@ export function LibraryBrowser() {
         <div className="text-center text-sm text-ink-light py-8">加载中…</div>
       ) : items.length === 0 ? (
         <Card className="text-center py-10 text-sm text-ink-light">
-          没有找到匹配的格言
+          没有找到匹配的格言式微干预内容
         </Card>
       ) : (
         <ul className="space-y-3">

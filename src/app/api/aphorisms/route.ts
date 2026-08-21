@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   const category = url.searchParams.get("category");
   const tag = url.searchParams.get("tag");
   const q = (url.searchParams.get("q") ?? "").trim();
-  const limit = Math.min(parseInt(url.searchParams.get("limit") ?? "100"), 200);
+  const limit = Math.min(parseInt(url.searchParams.get("limit") ?? "500"), 500);
 
   const items = await prisma.aphorism.findMany({
     where: {

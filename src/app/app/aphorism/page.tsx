@@ -16,7 +16,7 @@ export default async function AphorismPage() {
       })
     : [];
   const aphorism = aphorisms[0];
-  if (!aphorism) return <div className="p-6">暂无格言</div>;
+  if (!aphorism) return <div className="p-6">暂无格言式微干预内容</div>;
 
   const ua = await prisma.userAphorism.upsert({
     where: {
@@ -34,8 +34,8 @@ export default async function AphorismPage() {
     <div className="p-5 pt-6 animate-fade-in">
       <div className="flex items-center justify-between mb-5">
         <div>
-          <div className="text-xs text-ink-light">今日格言</div>
-          <div className="font-song text-xl text-ink">心语每日</div>
+          <div className="text-xs text-ink-light">今日格言式微干预</div>
+          <div className="font-song text-xl text-ink">心语每日练习</div>
         </div>
         <div className="flex items-center gap-3">
           <Link
