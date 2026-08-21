@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/Button";
 
 const features = [
   {
-    title: "每日格言智慧",
-    body: "精选中华古典与现代哲思，配以逐字注释、心理学解读与应用场景。",
+    title: "格言式微干预",
+    body: "精选文化文本与心理治疗转译短句，标注心理技术靶点、适用情绪和练习建议。",
     emoji: "📜",
   },
   {
@@ -24,7 +24,7 @@ const features = [
   },
   {
     title: "我的心理档案",
-    body: "情绪曲线、阅读感悟、进展报告——看见自己的成长。",
+    body: "情绪曲线、筛查结果、练习记录和进展报告，辅助自我观察与随访沟通。",
     emoji: "📈",
   },
 ];
@@ -37,15 +37,15 @@ export default function LandingPage() {
         <h1 className="font-song text-4xl sm:text-5xl text-ink tracking-wider">
           心语
         </h1>
-        <p className="mt-3 text-ink-light">格言智慧心理干预系统</p>
+        <p className="mt-3 text-ink-light">文化适配数字心理健康筛查与微干预支持工具</p>
         <p className="mt-8 text-ink/80 leading-loose max-w-lg mx-auto">
-          以中华传统智慧为魂，
+          以文化文本为载体，
           <br />
-          以循证心理技术为骨，
+          以标准化筛查为入口，
           <br />
-          以数字便捷为形——
+          以人工转介建议为边界——
           <br />
-          可随身携带的「心理药箱」。
+          服务健康宣教、低强度支持与连续随访。
         </p>
 
         <div className="mt-10 flex items-center justify-center gap-3">
@@ -83,7 +83,7 @@ export default function LandingPage() {
       </section>
 
       <footer className="text-center py-10 text-xs text-ink-light/70">
-        心语 · MVP · v0.1
+        心语 · 申报演示MVP · v0.1
       </footer>
     </main>
   );

@@ -58,7 +58,7 @@ export default async function AppHome() {
           <Card className="bg-gradient-to-br from-xuan to-moonlit border-bamboo/10">
             <div className="flex items-center gap-1.5 text-xs text-bamboo mb-3">
               <Sparkles size={14} />
-              今日格言
+              今日格言式微干预
             </div>
             <p className="aphorism-text text-2xl text-ink leading-relaxed">
               {aphorism.content}
@@ -67,7 +67,7 @@ export default async function AppHome() {
               — {aphorism.source}
             </div>
             <div className="mt-4 flex items-center justify-between text-sm text-bamboo">
-              <span>查看释义与心理学解读</span>
+              <span>查看心理靶点、风险边界与推荐练习</span>
               <ArrowRight size={16} />
             </div>
           </Card>

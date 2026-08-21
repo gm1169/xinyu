@@ -27,8 +27,8 @@ const PRACTICES = [
   {
     href: "/app/assistant",
     emoji: "🤖",
-    title: "AI 心理陪伴",
-    body: "想说点什么？让一句被听见，开始变化。",
+    title: "AI支持性对话",
+    body: "非诊断、非替代治疗；高风险时提示人工转介。",
     tone: "from-amber/10 to-xuan border-amber/20",
   },
 ];

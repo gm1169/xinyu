@@ -54,7 +54,9 @@ export default function ScreeningPage() {
             <ClipboardList size={18} className="text-bamboo" />
             标准量表筛查
           </div>
-          <div className="text-xs text-ink-light mt-0.5">PHQ-9 · GAD-7 · ISI</div>
+          <div className="text-xs text-ink-light mt-0.5">
+            PHQ-9 · GAD-7 · ISI · 筛查非诊断
+          </div>
         </div>
       </header>
 
@@ -73,6 +75,9 @@ export default function ScreeningPage() {
       <Card className="mb-4">
         <div className="font-song text-lg text-ink">{definition.name}</div>
         <p className="text-sm text-ink-light leading-relaxed mt-2">{definition.description}</p>
+        <p className="text-xs text-ink-light leading-relaxed mt-3">
+          结果仅用于健康宣教、随访参考和人工复核提示，不能替代临床诊疗。
+        </p>
       </Card>
 
       <div className="space-y-3">

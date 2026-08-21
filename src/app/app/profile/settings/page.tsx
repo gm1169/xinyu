@@ -4,9 +4,11 @@ import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { SettingsForm } from "@/components/profile/SettingsForm";
 import { Card } from "@/components/ui/Card";
+import { DEFAULT_CRISIS_RESOURCE } from "@/lib/crisis";
 
 export default async function SettingsPage() {
   const session = (await getSession())!;
+  const crisis = DEFAULT_CRISIS_RESOURCE;
   const user = await prisma.user.findUnique({
     where: { id: session.sub },
     select: {
@@ -41,16 +43,46 @@ export default async function SettingsPage() {
         </p>
         <ul className="mt-3 space-y-2 text-sm text-ink">
           <li>
-            · <span className="font-medium">全国心理援助热线：</span>
-            <a href="tel:400-161-9995" className="text-cinnabar">
-              400-161-9995
+            · <span className="font-medium">{crisis.label}：</span>
+            <a href={`tel:${crisis.phone}`} className="text-cinnabar">
+              {crisis.phone}
             </a>
             （24 小时）
           </li>
           <li>
+            · <span className="font-medium">{crisis.secondaryLabel}：</span>
+            <a href={`tel:${crisis.secondaryPhone}`} className="text-cinnabar">
+              {crisis.secondaryPhone}
+            </a>
+          </li>
+          <li>
+            · <span className="font-medium">{crisis.olderAdultLabel}：</span>
+            <a href={`tel:${crisis.olderAdultPhone}`} className="text-cinnabar">
+              {crisis.olderAdultPhone}
+            </a>
+            （老年专项）
+          </li>
+          <li>
+            · <span className="font-medium">{crisis.hope24Label}：</span>
+            <a href={`tel:${crisis.hope24Phone}`} className="text-cinnabar">
+              {crisis.hope24Phone}
+            </a>
+          </li>
+          <li>
+            · <span className="font-medium">{crisis.beijingLabel}：</span>
+            <a href={`tel:${crisis.beijingLandline}`} className="text-cinnabar">
+              {crisis.beijingLandline}
+            </a>
+            （座机） /{" "}
+            <a href={`tel:${crisis.beijingMobile}`} className="text-cinnabar">
+              {crisis.beijingMobile}
+            </a>
+            （手机）
+          </li>
+          <li>
             · <span className="font-medium">生命危险请拨：</span>
-            <a href="tel:120" className="text-cinnabar">
-              120
+            <a href={`tel:${crisis.emergencyPhone}`} className="text-cinnabar">
+              {crisis.emergencyPhone}
             </a>{" "}
             或前往最近医院急诊
           </li>

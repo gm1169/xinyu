@@ -1,5 +1,5 @@
 // 连续使用天数计算
-// 任意一项「活动」（阅读格言 / 完成训练 / 记录情绪 / 记录睡眠）即视为该日活跃
+// 任意一项「活动」（格言式微干预 / 完成训练 / 记录情绪 / 记录睡眠）即视为该日活跃
 
 import { prisma } from "./prisma";
 import { startOfDay, differenceInCalendarDays, subDays } from "date-fns";

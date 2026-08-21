@@ -52,10 +52,17 @@ export function triageCrisis(text: string): {
 export const DEFAULT_CRISIS_RESOURCE = {
   label: process.env.NEXT_PUBLIC_CRISIS_RESOURCE_LABEL || "武汉市精神卫生中心 心心语心理援助热线",
   phone: process.env.NEXT_PUBLIC_CRISIS_PHONE || "027-85844666",
-  secondaryLabel: process.env.NEXT_PUBLIC_CRISIS_SECONDARY_LABEL || "武汉市/湖北省 12356 心理援助热线",
+  secondaryLabel: process.env.NEXT_PUBLIC_CRISIS_SECONDARY_LABEL || "全国统一心理援助热线",
   secondaryPhone: process.env.NEXT_PUBLIC_CRISIS_SECONDARY_PHONE || "12356",
   olderAdultLabel: process.env.NEXT_PUBLIC_CRISIS_OLDER_ADULT_LABEL || "银龄好心情心理热线",
   olderAdultPhone: process.env.NEXT_PUBLIC_CRISIS_OLDER_ADULT_PHONE || "027-85868899",
+  hope24Label: process.env.NEXT_PUBLIC_CRISIS_HOPE24_LABEL || "希望24小时心理危机干预热线",
+  hope24Phone: process.env.NEXT_PUBLIC_CRISIS_HOPE24_PHONE || "400-161-9995",
+  beijingLabel:
+    process.env.NEXT_PUBLIC_CRISIS_BEIJING_LABEL ||
+    "北京心理危机研究与干预中心/北京市心理援助热线",
+  beijingLandline: process.env.NEXT_PUBLIC_CRISIS_BEIJING_LANDLINE || "800-810-1117",
+  beijingMobile: process.env.NEXT_PUBLIC_CRISIS_BEIJING_MOBILE || "010-82951332",
   emergencyPhone: process.env.NEXT_PUBLIC_EMERGENCY_PHONE || "120",
   localReferralNote:
     process.env.NEXT_PUBLIC_LOCAL_REFERRAL_NOTE ||
@@ -69,5 +76,5 @@ export function crisisResponse(level: CrisisLevel) {
       ? "我检测到这可能涉及紧急安全风险。请先暂停和 AI 继续深入讨论，把安全放在第一位。"
       : "我检测到你可能处在较高压力或危机状态。这个提示需要人工支持来复核。";
 
-  return `${urgency}\n\n建议你现在做三件事：\n1. 联系可信任的人陪在你身边。\n2. 联系专业支持：${resource.label} ${resource.phone}；也可拨打 ${resource.secondaryLabel} ${resource.secondaryPhone}。\n3. 如果存在立即危险，请拨打 ${resource.emergencyPhone} 或前往最近医院急诊。\n\n${resource.localReferralNote}\n\n我会把这次风险提示记录为待人工复核事件，但我不能替代医生、心理治疗师或急救服务。`;
+  return `${urgency}\n\n建议你现在做三件事：\n1. 联系可信任的人陪在你身边。\n2. 联系专业支持：${resource.label} ${resource.phone}；也可拨打 ${resource.secondaryLabel} ${resource.secondaryPhone}、${resource.hope24Label} ${resource.hope24Phone}，或 ${resource.beijingLabel} ${resource.beijingLandline}/${resource.beijingMobile}。\n3. 如果存在立即危险，请拨打 ${resource.emergencyPhone} 或前往最近医院急诊。\n\n${resource.localReferralNote}\n\n我会把这次风险提示记录为待人工复核事件，但我不能替代医生、心理治疗师或急救服务。`;
 }

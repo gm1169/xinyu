@@ -1,18 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { LifeBuoy, X } from "lucide-react";
 import { DEFAULT_CRISIS_RESOURCE } from "@/lib/crisis";
 
 export function CrisisHelp() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname() || "";
   const resource = DEFAULT_CRISIS_RESOURCE;
+  const bottomClass = pathname.startsWith("/app/assistant") ? "bottom-44" : "bottom-24";
 
   return (
     <>
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-24 right-4 z-30 w-12 h-12 rounded-full bg-cinnabar/90 text-white shadow-lift grid place-items-center hover:bg-cinnabar transition-colors"
+        className={`fixed ${bottomClass} right-4 z-30 w-12 h-12 rounded-full bg-cinnabar/90 text-white shadow-lift grid place-items-center hover:bg-cinnabar transition-colors`}
         aria-label="紧急帮助"
         title="紧急帮助"
       >
@@ -52,12 +55,22 @@ export function CrisisHelp() {
               <HotlineCard
                 label={resource.secondaryLabel}
                 phone={resource.secondaryPhone}
-                note="心理咨询、危机干预和科普宣教"
+                note="全国统一心理援助接入号"
               />
               <HotlineCard
                 label={resource.olderAdultLabel}
                 phone={resource.olderAdultPhone}
                 note="老年专项心理支持"
+              />
+              <HotlineCard
+                label={resource.hope24Label}
+                phone={resource.hope24Phone}
+                note="可作为跨地区补充心理危机支持"
+              />
+              <HotlineCard
+                label={resource.beijingLabel}
+                phone={resource.beijingMobile}
+                note={`座机可拨 ${resource.beijingLandline}`}
               />
               <HotlineCard
                 label="生命危险或急症"

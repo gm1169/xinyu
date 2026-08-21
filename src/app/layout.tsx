@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "心语 · 格言智慧心理干预系统",
+  title: "心语 · 文化适配数字心理健康筛查与微干预支持工具",
   description:
-    "以中华传统智慧为魂，以认知行为疗法为骨——可随身携带的「心理药箱」。",
+    "整合标准化筛查、情绪睡眠记录、格言式微干预、人工智能支持性对话和人工转介建议。",
 };
 
 export const viewport: Viewport = {
